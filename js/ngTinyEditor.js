@@ -7,7 +7,7 @@
   
   angular.module('ngTinyEditor', []);
   var template = "<div class=\"tinyeditor\">" + 
-  "<div class=\"tinyeditor-header clearfix\" ng-hide=\"editMode\">" + 
+  "<div class=\"tinyeditor-header clearfix\" >" + 
     "<div class=\"tinyeditor-buttons-group\">" + 
       "<div class=\"tinyeditor-control\" title=\"加粗\" ng-class=\"{\'pressed\': cursorStyle.bold}\" ng-click=\"execCommand(\'bold\')\"><i class=\"fa fa-bold\"></i></div>" + 
       "<div class=\"tinyeditor-control\" title=\"斜体\" ng-class=\"{\'pressed\': cursorStyle.italic}\" ng-click=\"execCommand(\'italic\')\"><i class=\"fa fa-italic\"></i></div>" + 
