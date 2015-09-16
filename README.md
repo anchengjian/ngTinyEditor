@@ -5,30 +5,36 @@ The ngTinyEditor is base on angular and tinyEditor(ngWYSIWYG), and more beautifu
 然后偶然发现了tinyEditor这个富文本编辑器，代码量很小，满足了我们项目的基本全部需求，然后又看到有开发者直接编写好了angurla 版本的tinyEditor ，命名为ngWYSIWYG 。我不知道这个WYSIWYG 和tinyEditor 什么关系。所以直接以ngTinyEditor命名。<br>
 如侵删。<br>
 其中修改了部分很多，最多的是把其布局和样式等几乎全部重写，使其更加的美观，这个也是我分享上来的主要目的。其中用到了开源的图标库fortawesome， 当然这个也是提升美观度的很大因素。<br>
-
-
+<br>
+[![demo]](http://htmlpreview.github.io/?https://github.com/anchengjian/ngTinyEditor/blob/master/index.html)  
+[demo]:https://raw.githubusercontent.com/anchengjian/ngTinyEditor/master/preview.png
+<br>
 ## 依赖
   [AngularJs](https://angularjs.org/) `AngularJs` >= 1.2X <br>
   [fortawesome](http://fortawesome.github.io/Font-Awesome/icons/)
-  
+ <br>
 ## demo
   [demo](http://htmlpreview.github.io/?https://github.com/anchengjian/ngTinyEditor/blob/master/index.html)
-  
+ <br>
 ## 使用说明
+<br>
 ### link css
 ```html
   <link rel="stylesheet" href="css/editor.css">
   <link rel="stylesheet" href="css/font-awesome.min.css">
 ```
+<br>
 ### load assets
 ```html
   <script src="js/angular.min.js"></script>
   <script src="js/ngTinyEditor.js"></script>
 ```
+<br>
 ### use it wherever you want
 ```html
   <tinyedit content="content"></tinyedit>
 ```
+<br>
 ### js
 ```js
   angular.module('myApp', ['ngTinyEditor']).
@@ -39,9 +45,10 @@ The ngTinyEditor is base on angular and tinyEditor(ngWYSIWYG), and more beautifu
       });
   }]);
 ```
+<br>
 ### 其中为了新手需要说明：
   在module 部分需要依赖 `'ngTinyEditor'`
-
+<br>
 ### 好了，再来一个全部的基础模版
 ```html
 <!DOCTYPE html>
