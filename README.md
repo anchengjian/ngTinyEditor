@@ -7,7 +7,7 @@ The ngTinyEditor is base on angular and tinyEditor(ngWYSIWYG), and more beautifu
 其中修改了部分很多，最多的是把其布局和样式等几乎全部重写，使其更加的美观，这个也是我分享上来的主要目的。其中用到了开源的图标库fortawesome， 当然这个也是提升美观度的很大因素。
 
 ## 依赖
-  [AngularJs](https://angularjs.org/) `AngularJs` >= 1.2X
+  [AngularJs](https://angularjs.org/) `AngularJs` >= 1.2X <br>
   [fortawesome](http://fortawesome.github.io/Font-Awesome/icons/)
   
 ## demo
