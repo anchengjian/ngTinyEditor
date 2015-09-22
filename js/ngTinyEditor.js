@@ -92,8 +92,107 @@
       
       //model --> view
       ctrl.$render = function() {
-        //$body.html(ctrl.$viewValue || ''); //not friendly with jQuery. snap you jQuery
-        $body[0].innerHTML = ctrl.$viewValue || '';
+        //$body.html(ctrl.$viewValue || '');
+        //not friendly with jQuery. snap you jQuery
+
+        // xss filter 
+        // anchengjian
+        // 20150-09-23
+        var allows, nodes, childNode;
+        allows = {
+          "a" : [ "title", "ping", "href", "class", "target", "style" ],
+          "b" : [ "class", "style" ],
+          "img" : [ "src", "class", "style" ],
+          "div" : [ "class", "style" ],
+          "p" : [ "class", "style" ],
+          "h1" : [ "class", "style" ],
+          "h2" : [ "class", "style" ],
+          "h3" : [ "class", "style" ],
+          "h4" : [ "class", "style" ],
+          "h5" : [ "class", "style" ],
+          "h6" : [ "class", "style" ],
+          "span" : [ "class", "style" ],
+          "ol" : [ "class", "style" ],
+          "ul" : [ "class", "style" ],
+          "blockquote" : [ "class", "style" ],
+          "hr" : [ "class", "style" ]
+        }
+        nodes = ctrl.$viewValue || '';
+        try{
+          var parser = new DOMParser();
+          nodes = parser.parseFromString( nodes, "text/html" ).body;
+        }catch(e){
+          var doc = new ActiveXObject ("MSXML2.DOMDocument");
+          nodes = doc.loadXML(nodes).body;
+        }
+
+        function filterNodes(node){
+          var i, newNode, attributes, child;
+
+          switch( node.nodeType ){
+          case 1: // ELEMENT_NODE
+            attributes = allows[ node.tagName.toLowerCase() ];
+            if( attributes === undefined ) return undefined;
+
+            newNode = document.createElement( node.tagName );
+            for( i = 0; i < node.attributes.length; i++ ){
+              if( attributes.indexOf( node.attributes[ i ].name ) != -1 ){
+                switch(node.attributes[ i ].name){
+                  case "href": node.attributes[ i ] = _deal_href(node.attributes[ i ]);break;
+                  case "style": node.attributes[ i ] = _deal_style(node.attributes[ i ]);break;
+                }
+                newNode.setAttribute( node.attributes[ i ].name, node.attributes[ i ].value );
+              }
+            }
+            for( i = 0; i < node.childNodes.length; i++ ){
+              child = filterNodes( node.childNodes[ i ] );
+              if( child !== undefined ){
+                newNode.appendChild( child );
+              }
+            }
+            return newNode;
+          case 3: // TEXT_NODE
+            return document.createTextNode( node.textContent );
+          default:
+            return undefined;
+          }
+        }
+        var _deal_href = function(attr){
+          var href = attr.value;
+          if (href.indexOf("http://") === 0 || href.indexOf("http://") === 0) {
+            attr.value = href;
+          }else{
+            attr.value = "http://" + href;
+          }
+          return attr;
+        }
+        var _deal_style = function(attr){
+          var style = attr.value;
+          var re = /expression/gim
+          style = style.replace(/\\/g, ' ').replace(/&#/g, ' ').replace(/\/\*/g, ' ').replace(/\*\//g, ' ');
+          attr.value = style.replace(re, ' ');
+          return attr;
+        }
+
+        try{
+          var parser = new DOMParser();
+          var target = parser.parseFromString( "", "text/html" ).body;
+        }catch(e){
+          var doc = new ActiveXObject ("MSXML2.DOMDocument");
+          var target = doc.loadXML("").body;
+        }
+
+        for( var i = 0; i < nodes.childNodes.length; i++ ){
+          childNode = filterNodes( nodes.childNodes[ i ] );
+          if( childNode !== undefined ){
+            target.appendChild( childNode );
+          }
+        }
+
+        $body[0].innerHTML=target.innerHTML;
+
+        // $body[0].innerHTML = ctrl.$viewValue || '';
+
       }
       
       scope.sync = function() {
